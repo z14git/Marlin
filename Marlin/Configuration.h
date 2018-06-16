@@ -75,7 +75,8 @@
 // terminal window during startup. Implementation of an idea by Prof Braino to
 // inform user that any changes made to this build by the user have been
 // successfully uploaded into firmware.
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR                                                 \
+    "(z14git, default config)" // Who made the changes.
 #define SHOW_BOOTSCREEN
 #define STRING_SPLASH_LINE1                                                    \
     SHORT_BUILD_VERSION                 // will be shown during bootup in line 1
@@ -129,7 +130,7 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 250000
+#define BAUDRATE 9600
 
 // Enable the Bluetooth serial interface on AT90USB devices
 //#define BLUETOOTH
@@ -419,7 +420,7 @@
 // PID Tuning Guide here: http://reprap.org/wiki/PID_Tuning
 
 // Comment the following line to disable PID and enable bang-bang.
-#define PIDTEMP
+// #define PIDTEMP
 #define BANG_MAX                                                               \
     255 // Limits current to nozzle while in bang-bang mode; 255=full current
 #define PID_MAX                                                                \
@@ -582,7 +583,7 @@
 #define USE_XMIN_PLUG
 #define USE_YMIN_PLUG
 #define USE_ZMIN_PLUG
-//#define USE_XMAX_PLUG
+#define USE_XMAX_PLUG
 //#define USE_YMAX_PLUG
 //#define USE_ZMAX_PLUG
 
@@ -1334,7 +1335,7 @@
 // them temporarily). M502 - reverts to the default "factory settings".  You
 // still need to store them in EEPROM afterwards if you want to.
 //
-//#define EEPROM_SETTINGS // Enable for M500 and M501 commands
+#define EEPROM_SETTINGS // Enable for M500 and M501 commands
 //#define DISABLE_M503    // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT // Give feedback on EEPROM commands. Disable to save   \
                         // PROGMEM.
@@ -1349,7 +1350,7 @@
                                // keepalive messages
 #define DEFAULT_KEEPALIVE_INTERVAL                                             \
     2 // Number of seconds between "busy" messages. Set with M113.
-#define BUSY_WHILE_HEATING // Some hosts require "busy" messages even during   \
+// #define BUSY_WHILE_HEATING // Some hosts require "busy" messages even during   \
                            // heating
 
 //
@@ -1664,7 +1665,7 @@
 //
 // Note: Usually sold with a white PCB.
 //
-//#define REPRAP_DISCOUNT_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_SMART_CONTROLLER
 
 //
 // Original RADDS LCD Display+Encoder+SDCardReader
