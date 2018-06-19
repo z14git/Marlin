@@ -143,7 +143,7 @@
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-//#define CUSTOM_MACHINE_NAME "3D Printer"
+#define CUSTOM_MACHINE_NAME "edge cutter"
 
 // Define this to set a unique identifier for this printer, (Used by some
 // programs to differentiate between machines) You can use an online service to
@@ -359,7 +359,7 @@
  * 0)", '-2':"Thermocouple + MAX6675 (only for sensor 0)", '-1':"Thermocouple +
  * AD595",'998':"Dummy 1", '999':"Dummy 2" }
  */
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 999
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -679,7 +679,7 @@
  */
 #define DEFAULT_AXIS_STEPS_PER_UNIT                                            \
     {                                                                          \
-        80, 80, 4000, 500                                                      \
+        800, 800, 4000, 500                                                    \
     }
 
 /**
@@ -1528,7 +1528,7 @@
  * 'tr':'Turkish', 'uk':'Ukrainian', 'zh_CN':'Chinese (Simplified)',
  * 'zh_TW':'Chinese (Traditional)', test':'TEST' }
  */
-#define LCD_LANGUAGE en
+#define LCD_LANGUAGE zh_CN
 
 /**
  * LCD Character Set
@@ -1665,7 +1665,7 @@
 //
 // Note: Usually sold with a white PCB.
 //
-#define REPRAP_DISCOUNT_SMART_CONTROLLER
+// #define REPRAP_DISCOUNT_SMART_CONTROLLER
 
 //
 // Original RADDS LCD Display+Encoder+SDCardReader
@@ -1800,7 +1800,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
 //
 // ReprapWorld Graphical LCD
