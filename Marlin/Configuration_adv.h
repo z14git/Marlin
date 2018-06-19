@@ -861,7 +861,7 @@
 //
 // G2/G3 Arc Support
 //
-#define ARC_SUPPORT // Disable this feature to save ~3226 bytes
+// #define ARC_SUPPORT // Disable this feature to save ~3226 bytes
 #if ENABLED(ARC_SUPPORT)
 #define MM_PER_ARC_SEGMENT 1 // Length of each arc segment
 #define N_ARC_CORRECTION                                                       \
@@ -1172,7 +1172,8 @@
  * You may also use software SPI if you wish to use general purpose IO pins.
  */
 //#define HAVE_TMC2130
-#if ENABLED(HAVE_TMC2130) // Choose your axes here. This is mandatory!         \
+#if ENABLED(                                                                   \
+    HAVE_TMC2130) // Choose your axes here. This is mandatory!         \
                           //#define X_IS_TMC2130                               \
                           //#define X2_IS_TMC2130                              \
                           //#define Y_IS_TMC2130                               \
@@ -1197,7 +1198,8 @@
  * (https://github.com/teemuatlut/TMC2208Stepper).
  */
 //#define HAVE_TMC2208
-#if ENABLED(HAVE_TMC2208) // Choose your axes here. This is mandatory!         \
+#if ENABLED(                                                                   \
+    HAVE_TMC2208) // Choose your axes here. This is mandatory!         \
                           //#define X_IS_TMC2208                               \
                           //#define X2_IS_TMC2208                              \
                           //#define Y_IS_TMC2208                               \
