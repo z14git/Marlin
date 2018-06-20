@@ -259,25 +259,25 @@ static void lcd_implementation_status_screen()
     //   entry to the status screen. Nozzle, bed, and
     //   fan outline bits don't change.
     //
-    if (PAGE_UNDER(STATUS_SCREENHEIGHT + 1))
-    {
-        u8g.drawBitmapP(STATUS_SCREEN_X, STATUS_SCREEN_Y,
-                        (STATUS_SCREENWIDTH + 7) / 8, STATUS_SCREENHEIGHT,
-#if HAS_FAN0
-#if FAN_ANIM_FRAMES > 2
-                        fan_frame == 1
-                            ? status_screen1_bmp
-                            : fan_frame == 2 ? status_screen2_bmp :
-#if FAN_ANIM_FRAMES > 3
-                                             fan_frame == 3 ? status_screen3_bmp
-                                                            :
-#endif
-#else
-                        blink && fanSpeeds[0] ? status_screen1_bmp :
-#endif
-#endif
-                                                            status_screen0_bmp);
-    }
+    //     if (PAGE_UNDER(STATUS_SCREENHEIGHT + 1))
+    //     {
+    //         u8g.drawBitmapP(STATUS_SCREEN_X, STATUS_SCREEN_Y,
+    //                         (STATUS_SCREENWIDTH + 7) / 8, STATUS_SCREENHEIGHT,
+    // #if HAS_FAN0
+    // #if FAN_ANIM_FRAMES > 2
+    //                         fan_frame == 1
+    //                             ? status_screen1_bmp
+    //                             : fan_frame == 2 ? status_screen2_bmp :
+    // #if FAN_ANIM_FRAMES > 3
+    //                                              fan_frame == 3 ? status_screen3_bmp
+    //                                                             :
+    // #endif
+    // #else
+    //                         blink && fanSpeeds[0] ? status_screen1_bmp :
+    // #endif
+    // #endif
+    //                                                             status_screen0_bmp);
+    //     }
 
     //
     // Temperature Graphics and Info
@@ -286,28 +286,28 @@ static void lcd_implementation_status_screen()
     if (PAGE_UNDER(28))
     {
         // Extruders
-        HOTEND_LOOP()
-        _draw_heater_status(STATUS_SCREEN_HOTEND_TEXT_X(e), e, blink);
+        // HOTEND_LOOP()
+        // _draw_heater_status(STATUS_SCREEN_HOTEND_TEXT_X(e), e, blink);
 
 // Heated bed
 #if HOTENDS < 4 && HAS_HEATED_BED
         _draw_heater_status(STATUS_SCREEN_BED_TEXT_X, -1, blink);
 #endif
 
-#if HAS_FAN0
-        if (PAGE_CONTAINS(STATUS_SCREEN_FAN_TEXT_Y - 7,
-                          STATUS_SCREEN_FAN_TEXT_Y))
-        {
-            // Fan
-            const int16_t per = ((fanSpeeds[0] + 1) * 100) / 256;
-            if (per)
-            {
-                lcd_moveto(STATUS_SCREEN_FAN_TEXT_X, STATUS_SCREEN_FAN_TEXT_Y);
-                lcd_put_u8str(itostr3(per));
-                lcd_put_wchar('%');
-            }
-        }
-#endif
+        // #if HAS_FAN0
+        //         if (PAGE_CONTAINS(STATUS_SCREEN_FAN_TEXT_Y - 7,
+        //                           STATUS_SCREEN_FAN_TEXT_Y))
+        //         {
+        //             // Fan
+        //             const int16_t per = ((fanSpeeds[0] + 1) * 100) / 256;
+        //             if (per)
+        //             {
+        //                 lcd_moveto(STATUS_SCREEN_FAN_TEXT_X, STATUS_SCREEN_FAN_TEXT_Y);
+        //                 lcd_put_u8str(itostr3(per));
+        //                 lcd_put_wchar('%');
+        //             }
+        //         }
+        // #endif
     }
 
 #if ENABLED(SDSUPPORT)
