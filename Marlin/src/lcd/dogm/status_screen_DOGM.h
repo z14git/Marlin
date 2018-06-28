@@ -465,10 +465,10 @@ static void lcd_implementation_status_screen()
             lcd_moveto(1 * XYZ_SPACING + X_VALUE_POS, XYZ_BASELINE);
             _draw_axis_value(Y_AXIS, ystring, blink);
 
-            lcd_moveto(2 * XYZ_SPACING + X_LABEL_POS, XYZ_BASELINE);
-            lcd_put_wchar('Z');
-            lcd_moveto(2 * XYZ_SPACING + X_VALUE_POS, XYZ_BASELINE);
-            _draw_axis_value(Z_AXIS, zstring, blink);
+            // lcd_moveto(2 * XYZ_SPACING + X_LABEL_POS, XYZ_BASELINE);
+            // lcd_put_wchar('Z');
+            // lcd_moveto(2 * XYZ_SPACING + X_VALUE_POS, XYZ_BASELINE);
+            // _draw_axis_value(Z_AXIS, zstring, blink);
 
 #if DISABLED(XYZ_HOLLOW_FRAME)
             u8g.setColorIndex(1); // black on white
@@ -482,14 +482,14 @@ static void lcd_implementation_status_screen()
 
     if (PAGE_CONTAINS(51 - INFO_FONT_HEIGHT, 49))
     {
-        lcd_setFont(FONT_MENU);
-        lcd_moveto(3, 50);
-        lcd_put_wchar(LCD_STR_FEEDRATE[0]);
+        // lcd_setFont(FONT_MENU);
+        // lcd_moveto(3, 50);
+        // lcd_put_wchar(LCD_STR_FEEDRATE[0]);
 
-        lcd_setFont(FONT_STATUSMENU);
-        lcd_moveto(12, 50);
-        lcd_put_u8str(itostr3(feedrate_percentage));
-        lcd_put_wchar('%');
+        // lcd_setFont(FONT_STATUSMENU);
+        // lcd_moveto(12, 50);
+        // lcd_put_u8str(itostr3(feedrate_percentage));
+        // lcd_put_wchar('%');
 
 //
 // Filament sensor display if SD is disabled
