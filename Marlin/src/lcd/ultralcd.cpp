@@ -186,6 +186,7 @@ uint16_t max_display_update_time = 0;
   void lcd_control_menu();
   void lcd_control_temperature_menu();
   void lcd_control_motion_menu();
+  void lcd_ec_run();
 
   #if DISABLED(SLIM_LCD_MENUS)
     void lcd_control_temperature_preheat_material1_settings_menu();
@@ -1106,6 +1107,8 @@ void lcd_quick_feedback(const bool clear_buttons) {
       else
         MENU_ITEM_EDIT_CALLBACK(bool, MSG_CASE_LIGHT, (bool*)&case_light_on, update_case_light);
     #endif
+
+    MENU_ITEM(function,MSG_EC_START,lcd_ec_run);
 
     if (planner.movesplanned() || IS_SD_PRINTING)
       MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
@@ -2644,6 +2647,16 @@ void lcd_quick_feedback(const bool clear_buttons) {
     }
 
   #endif // LCD_BED_LEVELING
+
+  /**
+   * "run" edge cutter run function
+   * 
+   */
+
+  void lcd_ec_run() {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING));
+    lcd_return_to_status();
+  }
 
   /**
    *

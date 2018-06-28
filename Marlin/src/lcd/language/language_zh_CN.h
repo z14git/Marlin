@@ -34,6 +34,9 @@
 
 #define CHARSIZE 3
 
+#define MSG_EC_START                        _UxGT("开始") //"start"
+#define MSG_EC_RUNNING                      _UxGT("正在挖槽...") //"running"
+
 #define WELCOME_MSG                         MACHINE_NAME _UxGT("已就绪.")  //" ready."
 #define MSG_BACK                            _UxGT("返回")         // ”Back“
 #define MSG_SD_INSERTED                     _UxGT("存储卡已插入")  //"Card inserted"
