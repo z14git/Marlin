@@ -584,7 +584,7 @@
 #define USE_YMIN_PLUG
 #define USE_ZMIN_PLUG
 #define USE_XMAX_PLUG
-//#define USE_YMAX_PLUG
+#define USE_YMAX_PLUG
 //#define USE_ZMAX_PLUG
 
 // Enable pullup for all endstops to prevent a floating state
@@ -679,7 +679,7 @@
  */
 #define DEFAULT_AXIS_STEPS_PER_UNIT                                            \
     {                                                                          \
-        800, 800, 4000, 500                                                    \
+        12, 320, 4000, 500                                                    \
     }
 
 /**
@@ -689,7 +689,7 @@
  */
 #define DEFAULT_MAX_FEEDRATE                                                   \
     {                                                                          \
-        300, 300, 5, 25                                                        \
+        10, 20, 5, 25                                                          \
     }
 
 /**
@@ -700,7 +700,7 @@
  */
 #define DEFAULT_MAX_ACCELERATION                                               \
     {                                                                          \
-        3000, 3000, 100, 10000                                                 \
+        10, 200, 100, 10000                                                    \
     }
 
 /**
@@ -711,9 +711,8 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION                                                   \
-    3000 // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION 3000 // E acceleration for retracts
+#define DEFAULT_ACCELERATION 10 // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION 200 // E acceleration for retracts
 #define DEFAULT_TRAVEL_ACCELERATION                                            \
     3000 // X, Y, Z acceleration for travel (non printing) moves
 
@@ -725,7 +724,7 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-#define DEFAULT_XJERK 10.0
+#define DEFAULT_XJERK 5.0
 #define DEFAULT_YJERK 10.0
 #define DEFAULT_ZJERK 0.3
 #define DEFAULT_EJERK 5.0
@@ -968,8 +967,8 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 200
-#define Y_BED_SIZE 200
+#define X_BED_SIZE 20000
+#define Y_BED_SIZE 20000
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS 0
