@@ -34,8 +34,19 @@
 
 #define CHARSIZE 3
 
-#define MSG_EC_START                        _UxGT("开始") //"start"
-#define MSG_EC_RUNNING                      _UxGT("正在挖槽...") //"running"
+#define MSG_EC_START_MENU                   _UxGT("开始") //"start menu"
+#define MSG_EC_PAUSE_MENU                   _UxGT("暂停")
+#define MSG_EC_CONTINUE_MENU                _UxGT("继续")
+#define MSG_EC_END_MENU                     _UxGT("结束")
+#define MSG_EC_RUNNING_INFO                 _UxGT("正在挖槽...") //"running"
+#define MSG_EC_PAUSE_INFO                   _UxGT("已暂停挖槽")   //"pause"
+#define MSG_EC_END_INFO                     _UxGT("挖槽结束")   //"end"
+#define MSG_EC_HOMING                       _UxGT("回轨迹起点中...")    //"homing"
+#define MSG_EC_PREPARE                      _UxGT("准备挖槽，回起点中...") //"prepare"
+#define MSG_EC_REACH_XMAX                   _UxGT("到达轨迹终点") //"reach xmax"
+#define MSG_EC_REACH_XMIN                   _UxGT("到达轨迹起点") //"reach xmin"
+#define MSG_EC_REACH_YMIN                   _UxGT("钻头已回到原点")
+#define MSG_EC_REACH_YMAX                   _UxGT("钻头已达最大深度")
 
 #define WELCOME_MSG                         MACHINE_NAME _UxGT("已就绪.")  //" ready."
 #define MSG_BACK                            _UxGT("返回")         // ”Back“
