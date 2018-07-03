@@ -38,6 +38,7 @@
 #include "../gcode/gcode.h"
 #include "../gcode/queue.h"
 #include "../module/configuration_store.h"
+#include "../module/groover.h"
 
 #include "../Marlin.h"
 
@@ -187,6 +188,9 @@ uint16_t max_display_update_time = 0;
   void lcd_control_temperature_menu();
   void lcd_control_motion_menu();
   void lcd_ec_run();
+  void lcd_ec_pause();
+  void lcd_ec_continue();
+  void lcd_ec_end();
 
   #if DISABLED(SLIM_LCD_MENUS)
     void lcd_control_temperature_preheat_material1_settings_menu();
@@ -1108,14 +1112,29 @@ void lcd_quick_feedback(const bool clear_buttons) {
         MENU_ITEM_EDIT_CALLBACK(bool, MSG_CASE_LIGHT, (bool*)&case_light_on, update_case_light);
     #endif
 
-    MENU_ITEM(function,MSG_EC_START,lcd_ec_run);
-
-    if (planner.movesplanned() || IS_SD_PRINTING)
-      MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
-    else
-      MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
-
-    MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+    switch (groover.status) {
+      case G_OFF:
+        MENU_ITEM(function,MSG_EC_START_MENU,lcd_ec_run);
+        if (planner.movesplanned() || IS_SD_PRINTING) {
+        } else {
+          MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
+        }        
+        MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+        break;
+      case G_ON:
+        MENU_ITEM(function,MSG_EC_PAUSE_MENU,lcd_ec_pause);
+        MENU_ITEM(function,MSG_EC_END_MENU,lcd_ec_end);
+        break;
+      case G_PAUSE: 
+        MENU_ITEM(function,MSG_EC_CONTINUE_MENU,lcd_ec_continue);
+        MENU_ITEM(function,MSG_EC_END_MENU,lcd_ec_end);
+        if (planner.movesplanned() || IS_SD_PRINTING) {
+        } else {
+          MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
+        }
+        MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+        break;
+    }
 
     #if ENABLED(SDSUPPORT)
       if (card.cardOK) {
@@ -2654,8 +2673,40 @@ void lcd_quick_feedback(const bool clear_buttons) {
    */
 
   void lcd_ec_run() {
-    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING));
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING_INFO));
     lcd_return_to_status();
+    groover_start();
+  }
+
+  /**
+   * "pause" edge cutter pause function
+   * 
+   */
+
+  void lcd_ec_pause() {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_PAUSE_INFO));
+    lcd_return_to_status();
+    groover_pause();
+  }
+
+  /**
+   * "continue" edge cutter continue function
+   * 
+   */
+
+  void lcd_ec_continue() {
+    lcd_ec_run();
+  }
+
+  /**
+   * "end" edge cutter end function
+   * 
+   */
+
+  void lcd_ec_end() {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_END_INFO));
+    lcd_return_to_status();
+    groover_off();
   }
 
   /**
