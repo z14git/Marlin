@@ -49,6 +49,7 @@
 #include "gcode/gcode.h"
 #include "gcode/parser.h"
 #include "gcode/queue.h"
+#include "module/groover.h"
 
 #if HAS_BUZZER && DISABLED(LCD_USE_I2C_BUZZER)
   #include "libs/buzzer.h"
@@ -204,16 +205,34 @@ millis_t max_inactive_time, // = 0
   I2CPositionEncodersMgr I2CPEM;
 #endif
 
-/**
+struct Groover groover;
+
+  /**
  * ***************************************************************************
  * ******************************** FUNCTIONS ********************************
  * ***************************************************************************
  */
 
-void setup_killpin() {
-  #if HAS_KILL
-    SET_INPUT_PULLUP(KILL_PIN);
-  #endif
+void groover_init() {
+  groover.status = G_OFF;
+}
+
+void groover_start() {
+  groover.status = G_ON;
+}
+
+void groover_pause() {
+  groover.status = G_PAUSE;
+}
+
+void groover_off() {
+  groover.status = G_OFF;
+}
+
+  void setup_killpin() {
+#if HAS_KILL
+      SET_INPUT_PULLUP(KILL_PIN);
+#endif
 }
 
 void setup_powerhold() {
@@ -899,6 +918,8 @@ void setup() {
   #if ENABLED(USE_WATCHDOG) // Reinit watchdog after HAL_get_reset_source call
     watchdog_init();
   #endif
+
+  groover_init();
 }
 
 /**
