@@ -40,11 +40,14 @@ typedef struct {
 
   // Machine state
   float current_position[NUM_AXIS], feedrate;
-  int16_t target_temperature[HOTENDS],
-          fanSpeeds[FAN_COUNT];
+  int16_t target_temperature[HOTENDS];
 
   #if HAS_HEATED_BED
     int16_t target_temperature_bed;
+  #endif
+
+  #if FAN_COUNT
+    int16_t fanSpeeds[FAN_COUNT];
   #endif
 
   #if HAS_LEVELING
@@ -56,7 +59,8 @@ typedef struct {
   uint8_t cmd_queue_index_r, commands_in_queue;
   char command_queue[BUFSIZE][MAX_CMD_SIZE];
 
-  // SD File position
+  // SD Filename and position
+  char sd_filename[MAXPATHNAMELENGTH];
   uint32_t sdpos;
 
   // Job elapsed time

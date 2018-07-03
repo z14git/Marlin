@@ -555,7 +555,7 @@ void idle(
 ) {
   #if ENABLED(MAX7219_DEBUG)
     Max7219_idle_tasks();
-  #endif  // MAX7219_DEBUG
+  #endif
 
   lcd_update();
 
@@ -721,10 +721,10 @@ void setup() {
 
   #if NUM_SERIAL > 0
     uint32_t serial_connect_timeout = millis() + 1000UL;
-    while(!MYSERIAL0 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
+    while (!MYSERIAL0 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
     #if NUM_SERIAL > 1
       serial_connect_timeout = millis() + 1000UL;
-      while(!MYSERIAL1 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
+      while (!MYSERIAL1 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
     #endif
   #endif
 
@@ -736,6 +736,10 @@ void setup() {
   #endif
   #if ENABLED(HAVE_TMC2208)
     tmc2208_serial_begin();
+  #endif
+
+  #ifdef BOARD_INIT
+    BOARD_INIT();
   #endif
 
   // Check startup - does nothing if bootloader sets MCUSR to 0
