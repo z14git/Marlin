@@ -213,23 +213,99 @@ struct Groover groover;
  * ***************************************************************************
  */
 
+FORCE_INLINE static void mill_init() {
+  SET_OUTPUT(MILLING_CUTTER_PIN);
+  OUT_WRITE(MILLING_CUTTER_PIN, LOW);
+}
+
+FORCE_INLINE static void mill_on() {
+  OUT_WRITE(MILLING_CUTTER_PIN, HIGH);
+}
+
+FORCE_INLINE static void mill_off() {
+  OUT_WRITE(MILLING_CUTTER_PIN, LOW);
+}
+
 void groover_init() {
-  groover.status = G_OFF;
+  groover.status           = G_OFF;
+  groover.run_flag         = 0;
+  groover.calibration_flag = 0;
+  groover.end_flag         = 0;
 }
 
+/**
+ * @brief 该函数只在主循环中执行
+ * 
+ */
+static void groover_run() {
+  float distance;
+  if (!groover.run_flag || !groover.calibration_flag) {
+    return;
+  }
+
+  if (groover.end_flag) {
+    groover_off();
+    groover.end_flag = 0;
+    return;
+  }
+  distance = planner.get_axis_position_mm(X_AXIS);
+  if (distance > (X_MAX_POS - 300)) {
+    groover_off();
+    groover.end_flag = 0;
+    return;
+  }
+}
+
+/**
+ * @brief 该函数只能通过“开始”菜单执行
+ * 
+ */
 void groover_start() {
-  groover.status = G_ON;
+  groover.status           = G_ON;
+  groover.run_flag         = 1;
+  groover.calibration_flag = 0;
+  groover.end_flag         = 0;
+  clear_command_queue();
+  quickstop_stepper();
+  enqueue_and_echo_commands_P(PSTR("G28 Y"));
+  enqueue_and_echo_commands_P(PSTR("G28 R X"));
+
+  mill_on();
+
+  enqueue_and_echo_commands_P(PSTR("G1 Y10")); //todo: 该距离可通过菜单调节
+  groover.calibration_flag = 1;
+  enqueue_and_echo_commands_P(PSTR("G0 X" STRINGIFY(X_MAX_POS)));
 }
 
+/**
+ * @brief 该函数只能通过“暂停”菜单执行
+ * 
+ */
 void groover_pause() {
   groover.status = G_PAUSE;
+  clear_command_queue();
+  quickstop_stepper();
 }
 
+/**
+ * @brief 
+ * 
+ */
 void groover_off() {
-  groover.status = G_OFF;
+  groover.status           = G_OFF;
+  groover.run_flag         = 0;
+  groover.calibration_flag = 0;
+
+  clear_command_queue();
+  quickstop_stepper();
+  enqueue_and_echo_commands_P(PSTR("G28 Y"));
+
+  mill_off();
+
+  enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_END_INFO));
 }
 
-  void setup_killpin() {
+void setup_killpin() {
 #if HAS_KILL
       SET_INPUT_PULLUP(KILL_PIN);
 #endif
@@ -924,6 +1000,7 @@ void setup() {
   #endif
 
   groover_init();
+  mill_init();
 }
 
 /**
@@ -965,5 +1042,6 @@ void loop() {
     advance_command_queue();
     endstops.report_state();
     idle();
+    groover_run();
   }
 }

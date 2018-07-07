@@ -3,6 +3,8 @@
 
 #include "../inc/MarlinConfig.h"
 
+#define MILLING_CUTTER_PIN 44
+
 enum {
     G_OFF,
     G_PAUSE,
@@ -11,6 +13,9 @@ enum {
 
 struct Groover {
     uint8_t status;
+    bool    run_flag;
+    bool    calibration_flag;
+    bool    end_flag;
 };
 
 extern struct Groover groover;

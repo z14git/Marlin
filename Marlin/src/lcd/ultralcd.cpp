@@ -1118,17 +1118,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
         MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
         break;
       case G_ON:
-        MENU_ITEM(function,MSG_EC_PAUSE_MENU,lcd_ec_pause);
         MENU_ITEM(function,MSG_EC_END_MENU,lcd_ec_end);
-        break;
-      case G_PAUSE: 
-        MENU_ITEM(function,MSG_EC_CONTINUE_MENU,lcd_ec_continue);
-        MENU_ITEM(function,MSG_EC_END_MENU,lcd_ec_end);
-        if (planner.movesplanned() || IS_SD_PRINTING) {
-        } else {
-          MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
-        }
-        MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
         break;
     }
 
@@ -2680,9 +2670,6 @@ void lcd_quick_feedback(const bool clear_buttons) {
    */
 
   void lcd_ec_pause() {
-    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_PAUSE_INFO));
-    lcd_return_to_status();
-    groover_pause();
   }
 
   /**
@@ -2700,7 +2687,6 @@ void lcd_quick_feedback(const bool clear_buttons) {
    */
 
   void lcd_ec_end() {
-    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_END_INFO));
     lcd_return_to_status();
     groover_off();
   }
