@@ -2716,7 +2716,8 @@ void lcd_quick_feedback(const bool clear_buttons) {
     //
     // Auto Home
     //
-    MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
+    MENU_ITEM(gcode, MSG_AUTO_HOME_X, PSTR("G28 X"));
+    MENU_ITEM(gcode, MSG_AUTO_HOME_Y, PSTR("G28 Y"));
     #if ENABLED(INDIVIDUAL_AXIS_HOMING_MENU)
       MENU_ITEM(gcode, MSG_AUTO_HOME_X, PSTR("G28 X"));
       MENU_ITEM(gcode, MSG_AUTO_HOME_Y, PSTR("G28 Y"));
@@ -2761,7 +2762,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
       //
       // Set Home Offsets
       //
-      MENU_ITEM(function, MSG_SET_HOME_OFFSETS, lcd_set_home_offsets);
+      // MENU_ITEM(function, MSG_SET_HOME_OFFSETS, lcd_set_home_offsets);
     #endif
 
     //
@@ -3267,7 +3268,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
           MENU_ITEM(function, MSG_FREE_XY, lcd_lower_z_to_clip_height);
       #endif
 
-      MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_get_z_amount);
+      // MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_get_z_amount);
     }
     else
       MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
@@ -3318,7 +3319,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
     #else
 
       // Independent extruders with one E-stepper per hotend
-      MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_get_e_amount);
+      // MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_get_e_amount);
       #if E_MANUAL > 1
         MENU_ITEM(submenu, MSG_MOVE_E MSG_MOVE_E1, lcd_move_get_e0_amount);
         MENU_ITEM(submenu, MSG_MOVE_E MSG_MOVE_E2, lcd_move_get_e1_amount);
@@ -3725,7 +3726,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
       // M203 Max Feedrate
       MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_A, &planner.max_feedrate_mm_s[A_AXIS], 1, 999);
       MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_B, &planner.max_feedrate_mm_s[B_AXIS], 1, 999);
-      MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_C, &planner.max_feedrate_mm_s[C_AXIS], 1, 999);
+      // MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_C, &planner.max_feedrate_mm_s[C_AXIS], 1, 999);
 
       #if ENABLED(DISTINCT_E_FACTORS)
         MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_E, &planner.max_feedrate_mm_s[E_AXIS + active_extruder], 1, 999);
@@ -3741,14 +3742,14 @@ void lcd_quick_feedback(const bool clear_buttons) {
           #endif // E_STEPPERS > 3
         #endif // E_STEPPERS > 2
       #else
-        MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_E, &planner.max_feedrate_mm_s[E_AXIS], 1, 999);
+        // MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMAX MSG_E, &planner.max_feedrate_mm_s[E_AXIS], 1, 999);
       #endif
 
       // M205 S Min Feedrate
-      MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMIN, &planner.min_feedrate_mm_s, 0, 999);
+      // MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VMIN, &planner.min_feedrate_mm_s, 0, 999);
 
       // M205 T Min Travel Feedrate
-      MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VTRAV_MIN, &planner.min_travel_feedrate_mm_s, 0, 999);
+      // MENU_MULTIPLIER_ITEM_EDIT(float3, MSG_VTRAV_MIN, &planner.min_travel_feedrate_mm_s, 0, 999);
 
       END_MENU();
     }
@@ -3770,7 +3771,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
       // M201 settings
       MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_A, &planner.max_acceleration_mm_per_s2[A_AXIS], 100, 99000, _reset_acceleration_rates);
       MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_B, &planner.max_acceleration_mm_per_s2[B_AXIS], 100, 99000, _reset_acceleration_rates);
-      MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_C, &planner.max_acceleration_mm_per_s2[C_AXIS], 10, 99000, _reset_acceleration_rates);
+      // MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_C, &planner.max_acceleration_mm_per_s2[C_AXIS], 10, 99000, _reset_acceleration_rates);
 
       #if ENABLED(DISTINCT_E_FACTORS)
         MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_E, &planner.max_acceleration_mm_per_s2[E_AXIS + active_extruder], 100, 99000, _reset_acceleration_rates);
@@ -3786,7 +3787,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
           #endif // E_STEPPERS > 3
         #endif // E_STEPPERS > 2
       #else
-        MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_E, &planner.max_acceleration_mm_per_s2[E_AXIS], 100, 99000, _reset_acceleration_rates);
+        // MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(long5, MSG_AMAX MSG_E, &planner.max_acceleration_mm_per_s2[E_AXIS], 100, 99000, _reset_acceleration_rates);
       #endif
 
       END_MENU();
@@ -3820,7 +3821,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
 
       MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_ASTEPS, &planner.axis_steps_per_mm[A_AXIS], 5, 9999, _planner_refresh_positioning);
       MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_BSTEPS, &planner.axis_steps_per_mm[B_AXIS], 5, 9999, _planner_refresh_positioning);
-      MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_CSTEPS, &planner.axis_steps_per_mm[C_AXIS], 5, 9999, _planner_refresh_positioning);
+      // MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_CSTEPS, &planner.axis_steps_per_mm[C_AXIS], 5, 9999, _planner_refresh_positioning);
 
       #if ENABLED(DISTINCT_E_FACTORS)
         MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_ESTEPS, &planner.axis_steps_per_mm[E_AXIS + active_extruder], 5, 9999, _planner_refresh_positioning);
@@ -3836,7 +3837,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
           #endif // E_STEPPERS > 3
         #endif // E_STEPPERS > 2
       #else
-        MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_ESTEPS, &planner.axis_steps_per_mm[E_AXIS], 5, 9999, _planner_refresh_positioning);
+        // MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(float62, MSG_ESTEPS, &planner.axis_steps_per_mm[E_AXIS], 5, 9999, _planner_refresh_positioning);
       #endif
 
       END_MENU();
@@ -3869,7 +3870,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
       MENU_ITEM(submenu, MSG_ACCELERATION, lcd_control_motion_acceleration_menu);
 
       // M205 - Max Jerk
-      MENU_ITEM(submenu, MSG_JERK, lcd_control_motion_jerk_menu);
+      // MENU_ITEM(submenu, MSG_JERK, lcd_control_motion_jerk_menu);
 
       // M92 - Steps Per mm
       MENU_ITEM(submenu, MSG_STEPS_PER_MM, lcd_control_motion_steps_per_mm_menu);
