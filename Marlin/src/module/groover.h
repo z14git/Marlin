@@ -13,6 +13,7 @@ enum {
 
 struct Groover {
     uint8_t status;
+    float   mill_depth;
     bool    run_flag;
     bool    calibration_flag;
     bool    end_flag;

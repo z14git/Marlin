@@ -231,6 +231,7 @@ void groover_init() {
   groover.run_flag         = 0;
   groover.calibration_flag = 0;
   groover.end_flag         = 0;
+  groover.mill_depth       = 12;
 }
 
 /**
@@ -261,10 +262,13 @@ static void groover_run() {
  * 
  */
 void groover_start() {
+  char *p_str, g_cmd[12];
+  const char g_cmd_prefix[] = "G1 Y";
   groover.status           = G_ON;
   groover.run_flag         = 1;
   groover.calibration_flag = 0;
   groover.end_flag         = 0;
+  strncpy(g_cmd, g_cmd_prefix, 4);
   clear_command_queue();
   quickstop_stepper();
   enqueue_and_echo_commands_P(PSTR("G28 Y"));
@@ -272,9 +276,12 @@ void groover_start() {
 
   mill_on();
 
-  enqueue_and_echo_commands_P(PSTR("G1 Y10")); //todo: 该距离可通过菜单调节
+  p_str = ftostr52(groover.mill_depth);
+  strncpy(&g_cmd[4], p_str, 8);
+  g_cmd[11] = '\0';
+  enqueue_and_echo_command(g_cmd); //todo: 该距离可通过菜单调节
   groover.calibration_flag = 1;
-  enqueue_and_echo_commands_P(PSTR("G0 X" STRINGIFY(X_MAX_POS)));
+  enqueue_and_echo_commands_P(PSTR("G1 X" STRINGIFY(X_MAX_POS)));
 }
 
 /**
