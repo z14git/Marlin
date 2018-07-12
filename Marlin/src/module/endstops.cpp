@@ -596,6 +596,11 @@ void Endstops::update() {
           PROCESS_DUAL_ENDSTOP(X, X2, MIN);
         #else
           if (X_MIN_TEST) PROCESS_ENDSTOP(X, MIN);
+          if (TEST(hit_state, X_MIN)) {
+            if (groover.run_flag) {
+              groover.calibration_flag = 1;
+            }
+          }
         #endif
       #endif
     }

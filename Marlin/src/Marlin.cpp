@@ -279,8 +279,8 @@ void groover_start() {
   p_str = ftostr52(groover.mill_depth);
   strncpy(&g_cmd[4], p_str, 8);
   g_cmd[11] = '\0';
-  enqueue_and_echo_command(g_cmd); //todo: 该距离可通过菜单调节
-  groover.calibration_flag = 1;
+  enqueue_and_echo_command(g_cmd);  // G1 Yxx, xx:groover.mill_depth
+
   enqueue_and_echo_commands_P(PSTR("G1 X" STRINGIFY(X_MAX_POS)));
 }
 
