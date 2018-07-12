@@ -231,7 +231,6 @@ void groover_init() {
   groover.run_flag         = 0;
   groover.calibration_flag = 0;
   groover.end_flag         = 0;
-  groover.mill_depth       = 12;
 }
 
 /**

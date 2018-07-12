@@ -37,7 +37,7 @@
  */
 
 // Change EEPROM version if the structure changes
-#define EEPROM_VERSION "V55"
+#define EEPROM_VERSION "V56"
 #define EEPROM_OFFSET 100
 
 // Check the integrity of data offsets.
@@ -65,6 +65,7 @@
 #include "../libs/vector_3.h"
 #include "../gcode/gcode.h"
 #include "../Marlin.h"
+#include "groover.h"
 
 #if HAS_LEVELING
   #include "../feature/bedlevel/bedlevel.h"
@@ -106,6 +107,11 @@ typedef struct PIDC { float Kp, Ki, Kd, Kc; } PIDC;
 typedef struct SettingsDataStruct {
   char      version[4];                                 // Vnn\0
   uint16_t  crc;                                        // Data Checksum
+
+  //
+  // 铣刀伸出长度
+  //
+  float     mill_depth;
 
   //
   // DISTINCT_E_FACTORS
@@ -400,6 +406,8 @@ void MarlinSettings::postprocess() {
     EEPROM_SKIP(working_crc); // Skip the checksum slot
 
     working_crc = 0; // clear before first "real data"
+
+    EEPROM_WRITE(groover.mill_depth);
 
     _FIELD_TEST(esteppers);
 
@@ -980,6 +988,8 @@ void MarlinSettings::postprocess() {
       #endif
 
       working_crc = 0;  // Init to 0. Accumulated by EEPROM_READ
+
+      EEPROM_READ(groover.mill_depth);
 
       _FIELD_TEST(esteppers);
 
@@ -1717,6 +1727,7 @@ void MarlinSettings::postprocess() {
  * M502 - Reset Configuration
  */
 void MarlinSettings::reset(PORTARG_SOLO) {
+  groover.mill_depth = 10;
   static const float tmp1[] PROGMEM = DEFAULT_AXIS_STEPS_PER_UNIT, tmp2[] PROGMEM = DEFAULT_MAX_FEEDRATE;
   static const uint32_t tmp3[] PROGMEM = DEFAULT_MAX_ACCELERATION;
   LOOP_XYZE_N(i) {
