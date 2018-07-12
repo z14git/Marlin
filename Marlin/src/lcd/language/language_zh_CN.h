@@ -45,10 +45,12 @@
 #define MSG_EC_PREPARE                      _UxGT("准备挖槽，回起点中...") //"prepare"
 #define MSG_EC_REACH_XMAX                   _UxGT("到达轨迹终点") //"reach xmax"
 #define MSG_EC_REACH_XMIN                   _UxGT("到达轨迹起点") //"reach xmin"
-#define MSG_EC_REACH_YMIN                   _UxGT("钻头已回到原点")
-#define MSG_EC_REACH_YMAX                   _UxGT("钻头已达最大深度")
+#define MSG_EC_REACH_YMIN                   _UxGT("铣刀已回到原点")
+#define MSG_EC_REACH_YMAX                   _UxGT("铣刀已达最大深度")
+#define MSG_EC_ADJ_Y_DEPTH                  _UxGT("铣刀伸出距离")
+#define MSG_EC_Y_DEPTH                      _UxGT("伸出距离")
 
-#define WELCOME_MSG                         MACHINE_NAME _UxGT("已就绪.")  //" ready."
+#define WELCOME_MSG                         _UxGT("挖槽机已就绪")  //" ready."
 #define MSG_BACK                            _UxGT("返回")         // ”Back“
 #define MSG_SD_INSERTED                     _UxGT("存储卡已插入")  //"Card inserted"
 #define MSG_SD_REMOVED                      _UxGT("存储卡被拔出")  //"Card removed"

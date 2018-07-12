@@ -3843,6 +3843,16 @@ void lcd_quick_feedback(const bool clear_buttons) {
       END_MENU();
     }
 
+    // 调节铣刀伸出距离
+    void lcd_ec_adj_y_depth() {
+      START_MENU();
+      MENU_BACK(MSG_MOTION);
+
+      MENU_MULTIPLIER_ITEM_EDIT(float62, MSG_EC_Y_DEPTH, &groover.mill_depth, 1, 100);
+
+      END_MENU();
+    }
+
   #endif // !SLIM_LCD_MENUS
 
   /**
@@ -3875,6 +3885,8 @@ void lcd_quick_feedback(const bool clear_buttons) {
       // M92 - Steps Per mm
       MENU_ITEM(submenu, MSG_STEPS_PER_MM, lcd_control_motion_steps_per_mm_menu);
 
+      // 调节铣刀伸出距离
+      MENU_ITEM(submenu,MSG_EC_ADJ_Y_DEPTH,lcd_ec_adj_y_depth);
     #endif // !SLIM_LCD_MENUS
 
     // M540 S - Abort on endstop hit when SD printing
