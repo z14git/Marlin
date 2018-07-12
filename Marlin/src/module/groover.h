@@ -17,6 +17,7 @@ struct Groover {
     bool    run_flag;
     bool    calibration_flag;
     bool    end_flag;
+    bool    show_start_info_flag;
 };
 
 extern struct Groover groover;

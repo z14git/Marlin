@@ -240,6 +240,10 @@ void groover_init() {
  */
 static void groover_run() {
   float distance;
+  if (groover.show_start_info_flag) {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING_INFO));
+    groover.show_start_info_flag = 0;
+  }
   if (!groover.run_flag || !groover.calibration_flag) {
     return;
   }
@@ -263,11 +267,12 @@ static void groover_run() {
  */
 void groover_start() {
   char *p_str, g_cmd[12];
-  const char g_cmd_prefix[] = "G1 Y";
-  groover.status           = G_ON;
-  groover.run_flag         = 1;
-  groover.calibration_flag = 0;
-  groover.end_flag         = 0;
+  const char g_cmd_prefix[]    = "G1 Y";
+  groover.status               = G_ON;
+  groover.run_flag             = 1;
+  groover.show_start_info_flag = 1;
+  groover.calibration_flag     = 0;
+  groover.end_flag             = 0;
   strncpy(g_cmd, g_cmd_prefix, 4);
   clear_command_queue();
   quickstop_stepper();

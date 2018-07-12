@@ -2659,7 +2659,6 @@ void lcd_quick_feedback(const bool clear_buttons) {
    */
 
   void lcd_ec_run() {
-    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING_INFO));
     lcd_return_to_status();
     groover_start();
   }
