@@ -231,6 +231,7 @@ void groover_init() {
   groover.run_flag         = 0;
   groover.calibration_flag = 0;
   groover.end_flag         = 0;
+  groover.mill_off_flag    = 0;
 }
 
 /**
@@ -244,8 +245,14 @@ static void groover_run() {
     groover.show_start_info_flag = 0;
   }
   if (!groover.run_flag || !groover.calibration_flag) {
+    if (groover.mill_off_flag) {
+      groover.mill_off_flag = 0;
+      mill_off();
+    }
     return;
   }
+
+  mill_on();
 
   if (groover.end_flag) {
     groover_off();
@@ -278,8 +285,6 @@ void groover_start() {
   enqueue_and_echo_commands_P(PSTR("G28 Y"));
   enqueue_and_echo_commands_P(PSTR("G28 R X"));
 
-  mill_on();
-
   p_str = ftostr52(groover.mill_depth);
   strncpy(&g_cmd[4], p_str, 8);
   g_cmd[11] = '\0';
@@ -310,8 +315,6 @@ void groover_off() {
   clear_command_queue();
   quickstop_stepper();
   enqueue_and_echo_commands_P(PSTR("G28 Y"));
-
-  mill_off();
 
   enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_END_INFO));
 }

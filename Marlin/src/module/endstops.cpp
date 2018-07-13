@@ -627,6 +627,9 @@ void Endstops::update() {
           PROCESS_DUAL_ENDSTOP(Y, Y2, MIN);
         #else
           PROCESS_ENDSTOP(Y, MIN);
+          if (!groover.run_flag) {
+            groover.mill_off_flag = 1;
+          }
         #endif
       #endif
     }
