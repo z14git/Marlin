@@ -49,6 +49,10 @@
 #define MSG_EC_REACH_YMAX                   _UxGT("铣刀已达最大深度")
 #define MSG_EC_ADJ_Y_DEPTH                  _UxGT("铣刀伸出距离")
 #define MSG_EC_Y_DEPTH                      _UxGT("伸出距离")
+#define MSG_EC_GO_FORWARD_MENU              _UxGT("前进")
+#define MSG_EC_GO_1_5_M_INFO                _UxGT("前进1.5米...")
+#define MSG_EC_END_FORWARD_INFO             _UxGT("已前进1.5米")
+#define MSG_EC_GO_ERROR_INFO                _UxGT("不能再前进！")
 
 #define WELCOME_MSG                         _UxGT("挖槽机已就绪")  //" ready."
 #define MSG_BACK                            _UxGT("返回")         // ”Back“

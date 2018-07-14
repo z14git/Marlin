@@ -451,6 +451,11 @@ void Endstops::update() {
       #endif
     #else
       UPDATE_ENDSTOP_BIT(X, MIN);
+      if (TEST(live_state,X_MIN)) {
+        if (groover.go_forward_flag) {
+          groover.go_forward_reach_xmin_flag = 1;
+        }
+      }
     #endif
   #endif
 
@@ -463,7 +468,9 @@ void Endstops::update() {
         COPY_LIVE_STATE(X_MAX, X2_MAX);
       #endif
     #else
-      UPDATE_ENDSTOP_BIT(X, MAX);
+      if (!groover.go_forward_flag) {
+        UPDATE_ENDSTOP_BIT(X, MAX);
+      }      
     #endif
   #endif
 

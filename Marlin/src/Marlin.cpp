@@ -207,7 +207,9 @@ millis_t max_inactive_time, // = 0
 
 struct Groover groover;
 
-  /**
+static float target_distance;
+
+/**
  * ***************************************************************************
  * ******************************** FUNCTIONS ********************************
  * ***************************************************************************
@@ -226,12 +228,29 @@ FORCE_INLINE static void mill_off() {
   OUT_WRITE(MILLING_CUTTER_PIN, LOW);
 }
 
+static void go_to_target_distance_x(float target) {
+  char *     p_str, g_cmd[12];
+  const char g_cmd_prefix[] = "G1 X";
+
+  strncpy(g_cmd, g_cmd_prefix, 4);
+
+  p_str           = ftostr62rj(target);
+  strncpy(&g_cmd[4], p_str, 8);
+  g_cmd[11] = '\0';
+  enqueue_and_echo_command(g_cmd); // G1 Xxx; xx:target
+}
+
 void groover_init() {
   groover.status           = G_OFF;
   groover.run_flag         = 0;
   groover.calibration_flag = 0;
   groover.end_flag         = 0;
   groover.mill_off_flag    = 0;
+  groover.go_forward_flag  = 0;
+
+  groover.show_go_forward_flag       = 0;
+  groover.show_go_forward_error_flag = 0;
+  groover.go_forward_reach_xmin_flag = 0;
 }
 
 /**
@@ -240,14 +259,44 @@ void groover_init() {
  */
 static void groover_run() {
   float distance;
+  
   if (groover.show_start_info_flag) {
     enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_RUNNING_INFO));
     groover.show_start_info_flag = 0;
   }
+
+  if (groover.show_go_forward_flag) {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_GO_1_5_M_INFO));
+    groover.show_go_forward_flag = 0;
+  }
+
+  if (groover.show_go_forward_error_flag) {
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_GO_ERROR_INFO));
+    groover.show_go_forward_error_flag = 0;
+  }
+
+  distance = planner.get_axis_position_mm(X_AXIS);
+
+  if (groover.go_forward_reach_xmin_flag) {
+    groover.go_forward_flag = 0;
+    groover.go_forward_reach_xmin_flag = 0;
+    clear_command_queue();
+    quickstop_stepper();
+    go_to_target_distance_x(distance + 15);
+    enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_REACH_XMIN));
+  }
+
   if (!groover.run_flag || !groover.calibration_flag) {
     if (groover.mill_off_flag) {
       groover.mill_off_flag = 0;
       mill_off();
+    }
+
+    if (groover.go_forward_flag) {
+      if (distance > target_distance) {
+        groover.go_forward_flag = 0;
+        enqueue_and_echo_commands_P(PSTR("M117 " MSG_EC_END_FORWARD_INFO));
+      }
     }
     return;
   }
@@ -259,12 +308,35 @@ static void groover_run() {
     groover.end_flag = 0;
     return;
   }
-  distance = planner.get_axis_position_mm(X_AXIS);
+  
   if (distance > (X_MAX_POS - 300)) {
     groover_off();
     groover.end_flag = 0;
     return;
   }
+}
+
+void groover_go_forward() {
+  float      distance;
+  char *     p_str, g_cmd[12];
+  const char g_cmd_prefix[] = "G1 X";
+
+  distance = planner.get_axis_position_mm(X_AXIS) + 1500;
+  if (distance > X_MAX_POS) {
+    groover.show_go_forward_error_flag = 1;
+    return;
+  }
+
+  groover.go_forward_flag      = 1;
+  groover.show_go_forward_flag = 1;
+
+  strncpy(g_cmd, g_cmd_prefix, 4);
+
+  target_distance = distance - 1;
+  p_str           = ftostr62rj(distance);
+  strncpy(&g_cmd[4], p_str, 8);
+  g_cmd[11] = '\0';
+  enqueue_and_echo_command(g_cmd); // G1 Xxx; xx:distance + 1500
 }
 
 /**
@@ -279,6 +351,11 @@ void groover_start() {
   groover.show_start_info_flag = 1;
   groover.calibration_flag     = 0;
   groover.end_flag             = 0;
+  groover.go_forward_flag      = 0;
+  groover.show_go_forward_flag = 0;
+  
+  groover.show_go_forward_error_flag = 0;
+  groover.go_forward_reach_xmin_flag = 0;
   strncpy(g_cmd, g_cmd_prefix, 4);
   clear_command_queue();
   quickstop_stepper();

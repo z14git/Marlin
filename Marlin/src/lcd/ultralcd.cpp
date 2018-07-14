@@ -191,6 +191,7 @@ uint16_t max_display_update_time = 0;
   void lcd_ec_pause();
   void lcd_ec_continue();
   void lcd_ec_end();
+  void lcd_ec_go_a_little();
 
   #if DISABLED(SLIM_LCD_MENUS)
     void lcd_control_temperature_preheat_material1_settings_menu();
@@ -1110,7 +1111,9 @@ void lcd_quick_feedback(const bool clear_buttons) {
 
     switch (groover.status) {
       case G_OFF:
-        MENU_ITEM(function,MSG_EC_START_MENU,lcd_ec_run);
+        MENU_ITEM(function, MSG_EC_START_MENU, lcd_ec_run);
+        if (!groover.go_forward_flag)
+          MENU_ITEM(function, MSG_EC_GO_FORWARD_MENU, lcd_ec_go_a_little);
         if (planner.movesplanned() || IS_SD_PRINTING) {
         } else {
           MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
@@ -1118,7 +1121,7 @@ void lcd_quick_feedback(const bool clear_buttons) {
         MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
         break;
       case G_ON:
-        MENU_ITEM(function,MSG_EC_END_MENU,lcd_ec_end);
+        MENU_ITEM(function, MSG_EC_END_MENU, lcd_ec_end);
         break;
     }
 
@@ -2652,6 +2655,11 @@ void lcd_quick_feedback(const bool clear_buttons) {
     }
 
   #endif // LCD_BED_LEVELING
+
+  void lcd_ec_go_a_little() {
+    lcd_return_to_status();
+    groover_go_forward();
+  }
 
   /**
    * "run" edge cutter run function

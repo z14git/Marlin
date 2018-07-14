@@ -19,6 +19,10 @@ struct Groover {
     bool    end_flag;
     bool    show_start_info_flag;
     bool    mill_off_flag;
+    bool    go_forward_flag;
+    bool    show_go_forward_flag;
+    bool    show_go_forward_error_flag;
+    bool    go_forward_reach_xmin_flag;
 };
 
 extern struct Groover groover;
@@ -29,5 +33,6 @@ void groover_pause();
 void groover_continue();
 void groover_off();
 void groover_process();
+void groover_go_forward();
 
 #endif
