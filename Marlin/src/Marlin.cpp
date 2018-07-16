@@ -251,6 +251,11 @@ void groover_init() {
   groover.show_go_forward_flag       = 0;
   groover.show_go_forward_error_flag = 0;
   groover.go_forward_reach_xmin_flag = 0;
+
+  SET_OUTPUT(X_MIN_STATE_PIN);
+  SET_OUTPUT(X_MAX_STATE_PIN);
+  SET_OUTPUT(Y_MIN_STATE_PIN);
+  SET_OUTPUT(Y_MAX_STATE_PIN);
 }
 
 /**

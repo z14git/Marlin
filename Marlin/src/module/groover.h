@@ -4,6 +4,10 @@
 #include "../inc/MarlinConfig.h"
 
 #define MILLING_CUTTER_PIN 44
+#define X_MIN_STATE_PIN 40
+#define X_MAX_STATE_PIN 42
+#define Y_MIN_STATE_PIN 63
+#define Y_MAX_STATE_PIN 64
 
 enum {
     G_OFF,
